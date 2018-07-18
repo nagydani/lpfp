@@ -18,7 +18,6 @@ ROOT2F:	EQU	$406A		; Square root of 2				1.414e+00
 
 ; Subroutines
 	INCLUDE "fdivmul.asm"
-	INCLUDE	"fint.asm"
 	INCLUDE "faddsub.asm"
 	INCLUDE "fsquare.asm"
 	INCLUDE "mul8bit.asm"

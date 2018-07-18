@@ -1,3 +1,82 @@
+; Add two positive floating-point numbers
+; In: HL,DE numbers to add, HL >= DE
+; Out: HL = sum HL + DE
+; Pollutes: AF,DE
+FADDP:	LD	A,H
+	SUB	D
+	JR	Z,FADD0		; same magnitude, cleared C flag
+	CP	9
+	JR	C,FADDL		; magnitude too different, just return the bigger number
+	RET
+FADDL0:	AND	A
+FADDL:	RR	E
+	DEC	A
+	JR	NZ,FADDL0
+	LD	A,L
+	ADC	A,E		; rounding
+	LD	L,A
+	RET	NC
+	SRL	A
+FADD1:	ADC	A,0		; rounding
+	LD	L,A
+	INC	H
+	BIT	7,H		; check overflow
+	RET	Z
+FINFTY:	LD	HL,MAXF		; positive maxfloat
+	RET
+FADD0:	LD	A,L
+	ADD	A,E
+	RRA
+	JR	FADD1
+
+; Round towards zero
+; In: HL any floating-point number
+; Out: HL same number rounded towards zero
+; Pollutes: AF,B
+FINT:	LD	A,H
+	AND	$7F
+	SUB	$40
+	JR	C,FZERO	; Completely fractional
+	SUB	8
+	RET	NC	; Already integer
+	NEG
+	AND	7
+	JR	Z,FINT0
+	LD	B,A
+	LD	A,$FF
+FINTL:	ADD	A,A
+	DJNZ	FINTL
+	AND	L
+FINT0:	LD	L,A
+	RET
+FZERO:	LD	HL,MINF
+	RET
+
+; Fractional part, remainder after division by 1
+; In: HL any floating-point number
+; Out: HL fractional part, with sign intact
+; Pollutes: AF,AF',BC,DE
+FRAC:	PUSH	HL
+	CALL	FINT
+	EX	DE,HL
+	POP	HL
+	JR	FSUB
+
+; Remainder after division
+; In: BC dividend, HL modulus
+; Out: HL remainder
+; Pollutes: AF,AF',BC,DE
+FMOD:	PUSH	BC	; Stack: dividend
+	PUSH	HL	; Stack: dividend, modulus
+	CALL	FDIV
+	CALL	FINT	; integer ratio
+	EX	DE,HL	; DE = int(BC/HL)
+	POP	BC	; Stack: dividend; BC = modulus
+	CALL	FMUL	; Stack: dividend
+	EX	DE,HL
+	POP	HL
+	; continue with FSUB
+
 ; Subtract two floating-point numbers
 ; In: HL,DE numbers to subtract, no restrictions
 ; Out: HL = difference HL - DE
@@ -45,37 +124,6 @@ FCPP:	LD	A,H
 	CP	E
 	RET
 
-; Add two positive floating-point numbers
-; In: HL,DE numbers to add, HL >= DE
-; Out: HL = sum HL + DE
-; Pollutes: AF,DE
-FADDP:	LD	A,H
-	SUB	D
-	JR	Z,FADD0		; same magnitude, cleared C flag
-	CP	9
-	JR	C,FADDL		; magnitude too different, just return the bigger number
-	RET
-FADDL0:	AND	A
-FADDL:	RR	E
-	DEC	A
-	JR	NZ,FADDL0
-	LD	A,L
-	ADC	A,E		; rounding
-	LD	L,A
-	RET	NC
-	SRL	A
-FADD1:	ADC	A,0		; rounding
-	LD	L,A
-	INC	H
-	BIT	7,H		; check overflow
-	RET	Z
-FINFTY:	LD	HL,MAXF		; positive maxfloat
-	RET
-FADD0:	LD	A,L
-	ADD	A,E
-	RRA
-	JR	FADD1
-
 ; Subtract two positive floating-point numbers
 ; In: HL,DE numbers to subtract, HL >= DE
 ; Out: HL = difference HL - DE
@@ -95,11 +143,15 @@ FSUBL:	RR	E
 	RET
 FSUB0:	LD	A,L
 	SUB	A,E
-	JR	Z,FZERO
+	JR	Z,FZERO2
 FSUBL2:	DEC	H
 	BIT	7,H
-	JR	NZ,FZERO
+	JR	NZ,FZERO2
 	ADD	A,A
 	JR	NC,FSUBL2
 	LD	L,A
+	RET
+
+; Return epsilon
+FZERO2:	LD	HL,MINF
 	RET
