@@ -89,5 +89,3 @@ FMULN:	CALL	MUL8
 	INC	L		; rounding
 FMULL:	INC	H
 	RET
-FZERO:	LD	HL,MINF		; positive epsilon
-	RET

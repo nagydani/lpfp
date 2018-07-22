@@ -15,6 +15,7 @@ MINF:	EQU	$0000		; Positive epsilon, 2^-64 			5.421e-20
 MAXF:	EQU	$7FFF		; Maximal floating point number 2^64-2^55	1.841e+19
 ONEF:	EQU	$4000		; One						1.000e+00
 ROOT2F:	EQU	$406A		; Square root of 2				1.414e+00
+F7F:	EQU	$46FC		; $7F i.e. 127					1.270e+02
 
 ; Subroutines
 	INCLUDE "fdivmul.asm"
@@ -23,6 +24,7 @@ ROOT2F:	EQU	$406A		; Square root of 2				1.414e+00
 	INCLUDE "mul8bit.asm"
 	INCLUDE "fint64.asm"
 	INCLUDE	"decimal.asm"
+	INCLUDE	"rotation.asm"
 ; Lookup tables
 	INCLUDE	"multab.asm"
 	INCLUDE	"divtab.asm"
