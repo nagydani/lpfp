@@ -31,3 +31,49 @@ FFIZP:	EX	AF,AF'
 FFIX0:	XOR	A
 	RET
 
+; Convert floating point array as above
+; In: HL = floating point array, DE = fixed point array, B = array size
+; Pollutes: AF,AF',B,BC',DE,DE',HL,HL'
+FFIXA:	LD	A,(HL)
+	INC	HL
+	EX	AF,AF'
+	LD	A,(HL)
+	INC	HL
+	EXX
+	LD	D,A
+	EX	AF,AF'
+	LD	E,A
+	CALL	FFIX
+	EXX
+	LD	(DE),A
+	INC	DE
+	DJNZ	FFIXA
+	RET
+
+; Multiply two signed integers to be interpreted as above
+; In: D,E = multiplicands
+; Out: A = product
+; Pollutes: F, HL
+MULFIX:	LD	H,SIGSQRT/256
+	LD	A,E
+	ADD	A,D
+	JP	PO,MULFIX1
+	LD	L,A
+	LD	A,(HL)
+	LD	L,E
+	SUB	A,(HL)
+	LD	L,D
+	SUB	A,(HL)
+	RET
+MULFIX1:LD	A,E
+	SUB	A,D
+	LD	L,A
+	LD	A,(HL)
+	NEG
+	LD	L,E
+	ADD	A,(HL)
+	LD	L,D
+	ADD	A,(HL)
+	RET
+
+
