@@ -37,7 +37,7 @@ FDIV:	CALL	FREC
 ; Out: HL product
 ; Pollutes: AF,AF',BC,DE
 FMUL:	LD	A,B
-	XOR	C
+	XOR	D
 	AND	$80
 	PUSH	AF
 	RES	7,B

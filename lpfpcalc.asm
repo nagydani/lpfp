@@ -25,8 +25,10 @@ F7F:	EQU	$46FC		; $7F i.e. 127					1.270e+02
 	INCLUDE "fint64.asm"
 	INCLUDE	"decimal.asm"
 	INCLUDE	"rotation.asm"
+	INCLUDE	"octa.asm"
 ; Lookup tables
 	INCLUDE	"multab.asm"
 	INCLUDE	"divtab.asm"
 	INCLUDE "squaretab.asm"
 	INCLUDE	"dectab.asm"
+	INCLUDE	"octab.asm"

@@ -1,8 +1,17 @@
 ; Add two positive floating-point numbers
+; In: HL,DE numbers to add
+; Out: HL = sum HL + DE
+; Pollutes: AF,DE
+FADDP:	CALL	FCPP
+	JR	NC,FADDPX
+	EX	DE,HL
+	; Continue with FADDPX
+
+; Add two positive floating-point numbers
 ; In: HL,DE numbers to add, HL >= DE
 ; Out: HL = sum HL + DE
 ; Pollutes: AF,DE
-FADDP:	LD	A,H
+FADDPX:	LD	A,H
 	SUB	D
 	JR	Z,FADD0		; same magnitude, cleared C flag
 	CP	9
@@ -104,7 +113,7 @@ FADD:	LD	B,H
 	LD	B,C
 FADDNS:	EX	AF,AF'
 	JR	C,FADDS
-	CALL	FADDP
+	CALL	FADDPX
 	JR	FADDHB
 FADDS:	CALL	FSUBP
 FADDHB:	LD	A,B
