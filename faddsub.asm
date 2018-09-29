@@ -146,8 +146,9 @@ FSUBP:	LD	A,H
 	JR	Z,FSUB0		; same magnitude, cleared C flag
 	CP	9
 	RET	NC		; magnitude too different, just return the bigger number
+	LD	D,1
 FSUBL:	RR	E
-	DEC	A
+	SUB	D
 	JR	NZ,FSUBL
 	LD	A,L
 	SBC	A,E		; rounding
