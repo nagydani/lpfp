@@ -46,7 +46,7 @@ FINT:	LD	A,H
 	AND	$7F
 	SUB	$40
 	JR	C,FZERO	; Completely fractional
-	SUB	8
+FINT2:	SUB	8
 	RET	NC	; Already integer
 	NEG
 	AND	7
@@ -65,8 +65,12 @@ FZERO:	LD	HL,MINF
 ; In: HL any floating-point number
 ; Out: HL fractional part, with sign intact
 ; Pollutes: AF,AF',BC,DE
-FRAC:	PUSH	HL
-	CALL	FINT
+FRAC:	LD	A,H
+	AND	$7F
+	SUB	$40
+	RET	C	; Pure fraction
+	PUSH	HL
+	CALL	FINT2
 	EX	DE,HL
 	POP	HL
 	JR	FSUB
