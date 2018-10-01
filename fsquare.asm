@@ -7,6 +7,7 @@ FSQUARE:LD	A,ROOT2F - $4001
 	LD	A,H
 	ADC	A,A
 	SUB	A,$40
+	JR	C,FZERO
 	JP	M,FINFTY		; overflow
 	LD	H,SQTAB/$100
 	LD	L,(HL)
