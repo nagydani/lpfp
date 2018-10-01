@@ -14,7 +14,7 @@ FADDP:	CALL	FCPP
 FADDPX:	LD	A,H
 	SUB	D
 	JR	Z,FADD0		; same magnitude, cleared C flag
-	CP	9
+	CP	10
 	JR	C,FADDL		; magnitude too different, just return the bigger number
 	RET
 FADDL0:	AND	A
@@ -144,7 +144,7 @@ FCPP:	LD	A,H
 FSUBP:	LD	A,H
 	SUB	D
 	JR	Z,FSUB0		; same magnitude, cleared C flag
-	CP	9
+	CP	10
 	RET	NC		; magnitude too different, just return the bigger number
 	LD	D,1
 FSUBL:	RR	E
