@@ -1,0 +1,89 @@
+; Move the origin by D
+; Pollutes: AF, AF', BC, DE, HL
+HITRAY:	LD	A,(POS)
+	LD	B,A
+	LD	HL,GC
+HRL:	PUSH	BC
+	LD	E,(HL)
+	INC	HL
+	LD	D,(HL)
+	PUSH	HL
+	LD	HL,(DX)
+	EX	DE,HL
+	CALL	FSUB
+	EX	DE,HL
+	POP	HL
+	LD	(HL),D
+	DEC	HL
+	LD	(HL),E
+	INC	HL
+	INC	HL
+	LD	E,(HL)
+	INC	HL
+	LD	D,(HL)
+	PUSH	HL
+	LD	HL,(DY)
+	EX	DE,HL
+	CALL	FSUB
+	EX	DE,HL
+	POP	HL
+	LD	(HL),D
+	DEC	HL
+	LD	(HL),E
+	INC	HL
+	INC	HL
+	LD	E,(HL)
+	INC	HL
+	LD	D,(HL)
+	PUSH	HL
+	LD	HL,(DZ)
+	EX	DE,HL
+	CALL	FSUB
+	EX	DE,HL
+	POP	HL
+	LD	(HL),D
+	DEC	HL
+	LD	(HL),E
+	INC	HL
+	INC	HL
+	POP	BC
+	DJNZ	HRL
+	LD	HL,(GC)
+	CALL	FRAC
+	LD	(GC),HL
+	LD	HL,(GC+4)
+	CALL	FRAC
+	LD	(GC+4),HL
+	RET
+
+; Scale D by DE
+; Input: DE=scale factor
+; Output: HL=DZ
+; Pollutes: AF, AF', BC
+SCALED:	PUSH	DE
+	LD	BC,(DX)
+	CALL	FMUL
+	LD	(DX),HL
+	POP	DE
+	PUSH	DE
+	LD	BC,(DY)
+	CALL	FMUL
+	LD	(DY),HL
+	POP	DE
+	PUSH	DE
+	LD	BC,(DZ)
+	CALL	FMUL
+	LD	(DZ),HL
+	POP	DE
+	RET
+
+; DL by DE and DD by DE*DE
+; Input: DE=scale factor
+; Output: HL=DD
+; Pollutes: AF, AF', BC, DE
+SCALEDL:LD	BC,(DL)
+	CALL	FMUL
+	LD	(DL),HL
+	CALL	FSQUARE
+	LD	(DD),HL
+	RET

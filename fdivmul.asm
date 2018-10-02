@@ -48,6 +48,19 @@ FMUL:	LD	A,B
 	LD	H,A
 	RET
 
+; Find the difference of two squares
+; Input: HL=hypothenuse, DE=leg
+; Output: HL=HL*HL-DE*DE computed as (HL-DE)*(HL+DE)
+FSQDIF:	PUSH	HL
+	PUSH	DE
+	CALL	FSUBP
+	POP	DE
+	EX	(SP),HL
+	CALL	FADDP
+	EX	DE,HL
+	POP	BC
+	; continue with FMULP
+
 ; Floating-point multiplication of positive numbers
 ; In: DE, BC multiplicands
 ; Out: HL product
