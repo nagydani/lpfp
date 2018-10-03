@@ -49,3 +49,10 @@ strict equality with ε should never be used as a zero check. Overflows result i
 the largerst representable number, 2⁶⁴. This also does not behave as algebraic 
 infinity in many cases. As there is no zero and no infinity, no operations can 
 result in `NaN`. Every result is a number.
+
+## Numerical Tips
+
+Finding a *leg* *b* given the *hypothenuse* *c=a+δ* and the other leg *a* of a right triangle should
+be computed very carefully to avoid catastrophic loss of precision. In particular, **do not use** ~~*b* = SQRT(*c*²-*a*²)~~, but *b* = SQRT(*δ*(2*a* + *δ*)), based on the *c*²-*a*² = (*c* - *a*)(*c* + *a*) identity.
+
+Similarly, when calculating sin² α of an angle between two unit vectors *a* and *b*, **do not** take the shortcut of using ~~1-(*a*⋅*b*)²~~. Instead, use the inner product of (*a*⋅*b*)*a* - *b* with itself.
