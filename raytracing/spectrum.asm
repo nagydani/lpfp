@@ -68,12 +68,14 @@ F7F:	EQU	$46FC		; $7F i.e. 127					1.270e+02
 
 ; Subroutines
 	INCLUDE "../fdivmul.asm"
-	INCLUDE "../faddsub.asm"
+	INCLUDE "../faddsub-fast.asm"
 	INCLUDE "../fsquare.asm"
 	INCLUDE "../mul8bit.asm"
 	INCLUDE "../fint64.asm"
 	INCLUDE	"../dot.asm"
 ; Lookup tables
+	INCLUDE "../addtab.asm"
+	INCLUDE "../subtab.asm"
 	INCLUDE	"../multab.asm"
 	INCLUDE	"../divtab.asm"
 	INCLUDE "../squaretab.asm"
