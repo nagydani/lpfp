@@ -145,15 +145,14 @@ FSUBP:	LD	A,H
 	LD	D,A
 	LD	A,(DE)
 	OR	A
-	JR	Z,FSUB2
-	LD	E,A
-	LD	A,L
-	SUB	A,E
+	JR	Z,FSUB2		; $1.FF / 2 = $1.00 (SBC A,$FF with C=1 does not change A, but sets carry)
+	NEG
+	ADD	A,L
 	LD	L,A
-	RET	NC
+	RET	C
 FSUB2:	LD	A,L
 	OR	A
-	JR	Z,FZERO3
+	JR	Z,FZERO3	; $1.00 - $1.00 = 0
 FSUBL2:	LD	D,H
 	LD	H,SUBTAB/$100 + 1
 	LD	A,(HL)
