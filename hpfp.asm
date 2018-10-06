@@ -9,12 +9,12 @@ STK_STORE:	EQU	$2AB6	; $12C3 for ZX81
 ; Pollutes: AF, BC, DE, HL
 STKFP:	LD	A,D
 	ADD	A,A
-	RL	E
-	RRCA
-	ADD	$41
+	RR	E
 	LD	BC,0
 	LD	D,B
-	RL	D
+	RR	D
+	RRCA
+	ADD	$41
 	JP	STK_STORE
 
 ; Retrieve floating point number from the calculator stack
