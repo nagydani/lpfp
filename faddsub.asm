@@ -15,20 +15,21 @@ FADDPX:	LD	A,H
 	SUB	D
 	JR	Z,FADD0		; same magnitude, cleared C flag
 	CP	10
-	JR	C,FADDL		; magnitude too different, just return the bigger number
-	RET
-FADDL0:	AND	A
-FADDL:	RR	E
+	RET	NC		; magnitude too different, just return the bigger number
+	RR	E
 	DEC	A
-	JR	NZ,FADDL0
-	LD	A,L
+	JR	Z,FADDLE
+FADDL:	SRL	E
+	DEC	A
+	JR	NZ,FADDL
+FADDLE:	LD	A,L
 	ADC	A,E		; rounding
 	LD	L,A
 	RET	NC
 	SRL	A
 FADD1:	ADC	A,0		; rounding
 	LD	L,A
-	INC	H
+FADD2:	INC	H
 	BIT	7,H		; check overflow
 	RET	Z
 FINFTY:	LD	HL,MAXF		; positive maxfloat
@@ -146,22 +147,32 @@ FSUBP:	LD	A,H
 	JR	Z,FSUB0		; same magnitude, cleared C flag
 	CP	10
 	RET	NC		; magnitude too different, just return the bigger number
-	LD	D,1
-FSUBL:	RR	E
-	SUB	D
+	RR	E
+	DEC	A
+	JR	Z,FSUBLE
+FSUBL:	SRL	E
+	DEC	A
 	JR	NZ,FSUBL
+FSUBLE:	SBC	A,A
+	LD	D,A		; save C flag to D
 	LD	A,L
 	SBC	A,E		; rounding
 	LD	L,A
-	JR	C,FSUBL2
-	RET
+	JR	C,FSUBN
+	RRC	D		; restore C flag from D
+	RET	NC
+	INC	L
+	RET	NZ
+	JP	FADD2
 FSUB0:	LD	A,L
 	SUB	A,E
 	JR	Z,FZERO2
+	LD	D,0
+FSUBN:	RRC	D		; restore C flag from D
 FSUBL2:	DEC	H
 	BIT	7,H
 	JR	NZ,FZERO2
-	ADD	A,A
+	ADC	A,A
 	JR	NC,FSUBL2
 	LD	L,A
 	RET
