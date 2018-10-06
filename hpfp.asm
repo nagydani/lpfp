@@ -20,7 +20,7 @@ STKFP:	LD	A,D
 ; Retrieve floating point number from the calculator stack
 ; Output: DE = retrieved floating point number
 ; Pollutes: AF, BC, BC', DE', HL, HL'
-FPTOHL:	RST	FP_CALC
+FPTODE:	RST	FP_CALC
 	DEFB	RSTK		; Remove for ZX81
 	DEFB	END_CALC
 	LD	A,(HL)
