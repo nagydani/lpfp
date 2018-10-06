@@ -135,12 +135,21 @@ FCPP:	LD	A,H
 ; Subtract two positive floating-point numbers
 ; In: HL,DE numbers to subtract, HL >= DE
 ; Out: HL = difference HL - DE
-; Pollutes: AF,DE
+; Pollutes: AF,DE,HL'
 FSUBP:	LD	A,H
 	SUB	D
 	JR	Z,FSUB0		; same magnitude, cleared C flag
 	CP	10
 	RET	NC		; magnitude too different, just return the bigger number
+	EXX
+	LD	H,BITTAB/$100
+	LD	L,A
+	DEC	L
+	EX	AF,AF'
+	LD	A,(HL)
+	EXX
+	AND	E
+	EX	AF,AF'
 	ADD	A,ADDTAB/$100 - 1
 	LD	D,A
 	LD	A,(DE)
@@ -154,9 +163,13 @@ FSUB2:	LD	A,L
 	OR	A
 	JR	Z,FZERO3	; $1.00 - $1.00 = 0
 FSUBL2:	LD	D,H
-	LD	H,SUBTAB/$100 + 1
+	LD	H,SUBTAB/$100
 	LD	A,(HL)
-	DEC	H
+	INC	H
+	EX	AF,AF'
+	JR	Z,FSUB1
+	INC	H
+FSUB1:	EX	AF,AF'
 	LD	L,(HL)
 	ADD	A,D
 	JR	NC,FZERO2	; underflow

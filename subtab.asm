@@ -1,6 +1,39 @@
 	INCLUDE "align.asm"
-; 512 byte table for renormalization after subtraction
-SUBTAB:	DEFB	$00, $00, $00, $80, $00, $40, $80, $c0
+; 768 byte table for renormalization after subtraction
+SUBTAB:	DEFB	$00, $f8, $f9, $f9, $fa, $fa, $fa, $fa
+	DEFB	$fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb
+	DEFB	$fc, $fc, $fc, $fc, $fc, $fc, $fc, $fc
+	DEFB	$fc, $fc, $fc, $fc, $fc, $fc, $fc, $fc
+	DEFB	$fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
+	DEFB	$fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
+	DEFB	$fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
+	DEFB	$fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
+	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
+	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
+	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
+	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
+	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
+	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
+	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
+	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+
+	DEFB	$00, $00, $00, $80, $00, $40, $80, $c0
 	DEFB	$00, $20, $40, $60, $80, $a0, $c0, $e0
 	DEFB	$00, $10, $20, $30, $40, $50, $60, $70
 	DEFB	$80, $90, $a0, $b0, $c0, $d0, $e0, $f0
@@ -33,35 +66,37 @@ SUBTAB:	DEFB	$00, $00, $00, $80, $00, $40, $80, $c0
 	DEFB	$e0, $e2, $e4, $e6, $e8, $ea, $ec, $ee
 	DEFB	$f0, $f2, $f4, $f6, $f8, $fa, $fc, $fe
 
-	DEFB	$00, $f8, $f9, $f9, $fa, $fa, $fa, $fa
-	DEFB	$fb, $fb, $fb, $fb, $fb, $fb, $fb, $fb
-	DEFB	$fc, $fc, $fc, $fc, $fc, $fc, $fc, $fc
-	DEFB	$fc, $fc, $fc, $fc, $fc, $fc, $fc, $fc
-	DEFB	$fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
-	DEFB	$fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
-	DEFB	$fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
-	DEFB	$fd, $fd, $fd, $fd, $fd, $fd, $fd, $fd
-	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
-	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
-	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
-	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
-	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
-	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
-	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
-	DEFB	$fe, $fe, $fe, $fe, $fe, $fe, $fe, $fe
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-	DEFB	$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+	DEFB	$00, $80, $40, $c0, $20, $60, $a0, $e0
+	DEFB	$10, $30, $50, $70, $90, $b0, $d0, $f0
+	DEFB	$08, $18, $28, $38, $48, $58, $68, $78
+	DEFB	$88, $98, $a8, $b8, $c8, $d8, $e8, $f8
+	DEFB	$04, $0c, $14, $1c, $24, $2c, $34, $3c
+	DEFB	$44, $4c, $54, $5c, $64, $6c, $74, $7c
+	DEFB	$84, $8c, $94, $9c, $a4, $ac, $b4, $bc
+	DEFB	$c4, $cc, $d4, $dc, $e4, $ec, $f4, $fc
+	DEFB	$02, $06, $0a, $0e, $12, $16, $1a, $1e
+	DEFB	$22, $26, $2a, $2e, $32, $36, $3a, $3e
+	DEFB	$42, $46, $4a, $4e, $52, $56, $5a, $5e
+	DEFB	$62, $66, $6a, $6e, $72, $76, $7a, $7e
+	DEFB	$82, $86, $8a, $8e, $92, $96, $9a, $9e
+	DEFB	$a2, $a6, $aa, $ae, $b2, $b6, $ba, $be
+	DEFB	$c2, $c6, $ca, $ce, $d2, $d6, $da, $de
+	DEFB	$e2, $e6, $ea, $ee, $f2, $f6, $fa, $fe
+	DEFB	$01, $03, $05, $07, $09, $0b, $0d, $0f
+	DEFB	$11, $13, $15, $17, $19, $1b, $1d, $1f
+	DEFB	$21, $23, $25, $27, $29, $2b, $2d, $2f
+	DEFB	$31, $33, $35, $37, $39, $3b, $3d, $3f
+	DEFB	$41, $43, $45, $47, $49, $4b, $4d, $4f
+	DEFB	$51, $53, $55, $57, $59, $5b, $5d, $5f
+	DEFB	$61, $63, $65, $67, $69, $6b, $6d, $6f
+	DEFB	$71, $73, $75, $77, $79, $7b, $7d, $7f
+	DEFB	$81, $83, $85, $87, $89, $8b, $8d, $8f
+	DEFB	$91, $93, $95, $97, $99, $9b, $9d, $9f
+	DEFB	$a1, $a3, $a5, $a7, $a9, $ab, $ad, $af
+	DEFB	$b1, $b3, $b5, $b7, $b9, $bb, $bd, $bf
+	DEFB	$c1, $c3, $c5, $c7, $c9, $cb, $cd, $cf
+	DEFB	$d1, $d3, $d5, $d7, $d9, $db, $dd, $df
+	DEFB	$e1, $e3, $e5, $e7, $e9, $eb, $ed, $ef
+	DEFB	$f1, $f3, $f5, $f7, $f9, $fb, $fd, $ff
+
+BITTAB:	DEFB	$01, $02, $04, $08, $10, $20, $40, $80
