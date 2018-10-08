@@ -1,19 +1,3 @@
-; Convert unsigned 8-bit integer into floating-point number
-; In: A = byte to convert
-; Out: DE = floating point representation
-; Pollutes: AF
-FBYTE:	OR	A
-	JR	Z,FBYTE0	; zero converted to positive epsilon
-	LD	D,$48
-FBYTEL:	RLA
-	DEC	D
-	JR	NC,FBYTEL
-	LD	E,A
-	RET
-FBYTE0:	LD	D,A
-	LD	E,A
-	RET
-
 ; Convert positive floating-point number to 64 bit LSB-first integer (always possible)
 ; The target array must be cleared before calling
 ; In: DE - floating point number, HL - pointer to integer (not crossing 256-byte boundaries)
